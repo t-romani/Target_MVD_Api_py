@@ -135,6 +135,13 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Rest Framework
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
+
 # dj-rest-auth
 SITE_ID = 1
 AUTH_USER_MODEL = 'users.User'
@@ -152,6 +159,7 @@ ACCOUNT_UNIQUE_EMAIL = True
 AUTHENTICATION_BACKENDS = [
     # allauth specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 # Static files (CSS, JavaScript, Images)
