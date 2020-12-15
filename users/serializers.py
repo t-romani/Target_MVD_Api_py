@@ -3,11 +3,11 @@ from django.db import transaction
 from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
 
-from users.models import GENDER_SELECTION
+from users.models import User
 
 
 class CustomRegisterSerializer(RegisterSerializer):
-    gender = serializers.ChoiceField(choices=GENDER_SELECTION)
+    gender = serializers.ChoiceField(choices=User.Gender.choices)
     first_name = serializers.CharField(max_length=30)
     last_name = serializers.CharField(max_length=30)
 
