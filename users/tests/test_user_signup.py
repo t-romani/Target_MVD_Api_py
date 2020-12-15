@@ -9,7 +9,6 @@ from rest_framework.test import APITestCase
 from users.models import User
 from users.tests.factories import UserFactory
 
-
 class SignUpTests(APITestCase):
     PASSWORDS_UNMATCH = "The two password fields didn't match."
     ALREADY_REGISTERED = 'A user is already registered with this e-mail address.'

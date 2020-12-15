@@ -20,6 +20,7 @@ class UserTestCase(TestCase):
 
   def test_user_attributes(self):
       user = User.objects.get(email=self.email)
+
       self.assertEqual(user.first_name, self.first_name)
       self.assertEqual(user.last_name, self.last_name)
       self.assertEqual(user.email, self.email)

@@ -5,6 +5,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from users.tests.factories import UserFactory
+import faker
 
 
 class LoginTests(APITestCase):
