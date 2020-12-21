@@ -1,3 +1,5 @@
+import random
+
 import faker
 from django.test import TestCase
 
@@ -10,9 +12,14 @@ class UserTestCase(TestCase):
         self.first_name = self.fake.first_name()
         self.last_name = self.fake.last_name()
         self.email = self.fake.email()
-        self.gender = 'NS'
+        self.gender = random.choice(User.Gender.choices)[0]
 
-        User.objects.create(first_name=self.first_name, last_name=self.last_name, email=self.email, gender=self.gender)
+        User.objects.create(
+            first_name=self.first_name,
+            last_name=self.last_name,
+            email=self.email,
+            gender=self.gender,
+        )
 
     def test_user_attributes(self):
         user = User.objects.get(email=self.email)
