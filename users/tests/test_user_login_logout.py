@@ -1,9 +1,10 @@
-from django.urls import reverse
-from rest_framework.test import APITestCase, APIRequestFactory
-from rest_framework import status
-from users.models import User
-from users.tests.factories import UserFactory
 import faker
+from django.urls import reverse
+from rest_framework import status
+from rest_framework.test import APITestCase
+
+from users.tests.factories import UserFactory
+
 
 class LoginTests(APITestCase):
     SIGN_IN_ERROR_MESSAGE = 'Unable to log in with provided credentials.'
@@ -17,21 +18,21 @@ class LoginTests(APITestCase):
         self.sign_in_url = reverse('rest_login')
 
     def test_sign_in_success(self):
-        data=({'email': self.user.email, 'password': self.password})
+        data = {'email': self.user.email, 'password': self.password}
         response = self.client.post(self.sign_in_url, data)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertTrue('key' in response.data)
 
     def test_sign_in_wrong_password(self):
-        data=({'email': self.user.email, 'password': 'wrong_pass'})
+        data = {'email': self.user.email, 'password': 'wrong_pass'}
         response = self.client.post(self.sign_in_url, data)
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertTrue(response.data['non_field_errors'] == [LoginTests.SIGN_IN_ERROR_MESSAGE])
 
     def test_sign_in_unexistant_email(self):
-        data=({'email': 'another@email.com', 'password': 'wrong_pass'})
+        data = {'email': 'another@email.com', 'password': 'wrong_pass'}
         response = self.client.post(self.sign_in_url, data)
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

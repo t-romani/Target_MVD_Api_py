@@ -1,7 +1,7 @@
 # serializers.py in the users Django app
+from dj_rest_auth.registration.serializers import RegisterSerializer
 from django.db import transaction
 from rest_framework import serializers
-from dj_rest_auth.registration.serializers import RegisterSerializer
 
 from users.models import User
 
