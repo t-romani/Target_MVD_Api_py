@@ -1,8 +1,11 @@
 import random
+
+from django.contrib.auth import get_user_model
 from factory import Faker
 from factory.django import DjangoModelFactory
-from django.contrib.auth import get_user_model
+
 from users.models import User
+
 
 class UserFactory(DjangoModelFactory):
     first_name = Faker('first_name')
