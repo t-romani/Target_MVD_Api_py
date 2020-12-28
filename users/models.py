@@ -8,6 +8,6 @@ class User(AbstractUser):
         FEMALE = 'F', ('Female')
         NOT_SPECIFIED = 'NS', ('Not specified')
 
-    gender = models.CharField(max_length=2, choices=Gender.choices)
+    gender = models.CharField(max_length=2, choices=Gender.choices, default='NS')
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)

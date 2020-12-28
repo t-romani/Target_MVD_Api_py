@@ -1,5 +1,6 @@
 import random
 
+from allauth.socialaccount.models import SocialApp
 from django.contrib.auth import get_user_model
 from factory import Faker
 from factory.django import DjangoModelFactory
@@ -16,3 +17,11 @@ class UserFactory(DjangoModelFactory):
     class Meta:
         model = get_user_model()
         django_get_or_create = ('email',)
+
+
+class SocialAppFactory(DjangoModelFactory):
+    provider = 'facebook'
+
+    class Meta:
+        model = SocialApp
+        django_get_or_create = ('name',)
