@@ -1,5 +1,6 @@
 import factory
 import faker
+from django.core import mail
 from rest_framework import status
 from rest_framework.test import APITestCase
 
@@ -10,6 +11,7 @@ from users.tests.factories import UserFactory
 class SignUpTests(APITestCase):
     PASSWORDS_UNMATCH = "The two password fields didn't match."
     ALREADY_REGISTERED = 'A user is already registered with this e-mail address.'
+    SITE_NAME = 'example.com'
 
     def setUp(self):
         self.data = factory.build(dict, FACTORY_CLASS=UserFactory)
@@ -42,3 +44,11 @@ class SignUpTests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data['email'], [SignUpTests.ALREADY_REGISTERED])
+
+    def test_confirmation_email_sent(self):
+        self.data.update({'password1': self.password, 'password2': self.password})
+        self.client.post('/dj-rest-auth/registration/', self.data)
+
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].to, [User.objects.get().email])
+        self.assertEqual(mail.outbox[0].subject, f"[{SignUpTests.SITE_NAME}] Please Confirm Your E-mail Address")
