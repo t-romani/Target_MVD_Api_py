@@ -43,7 +43,7 @@ class LoginTests(APITestCase):
 
     def test_sign_out_success(self):
         self.client.login(email=self.user.email, password=self.password)
-        response = self.client.post('/dj-rest-auth/logout/')
+        response = self.client.post(reverse('rest_logout'))
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertTrue('detail' in response.data)

@@ -151,6 +151,7 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 }
 
 # django-allauth
+# https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_USERNAME_REQUIRED = False
@@ -166,8 +167,10 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
-# email settings
+# Email Settings
+# https://docs.djangoproject.com/en/3.1/topics/email/#console-backend
 EMAIL_BACKEND = env('EMAIL_BACKEND')
+# https://docs.djangoproject.com/en/3.1/topics/email/#quick-example
 EMAIL_HOST = env('EMAIL_HOST')
 EMAIL_USE_TLS = True
 EMAIL_PORT = env('EMAIL_PORT')
