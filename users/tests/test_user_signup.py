@@ -1,13 +1,15 @@
 import factory
 import faker
 from allauth.account.models import EmailAddress
+from django.conf import settings
+from django.contrib.sites.models import Site
 from django.core import mail
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
 from users.models import User
-from users.tests.factories import UserFactory
+from users.tests.factories import SocialAppFactory, UserFactory
 
 
 class SignUpTests(APITestCase):
@@ -74,3 +76,26 @@ class SignUpTests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn('key', response.data)
+
+
+class FacebookSignUpTests(APITestCase):
+    def setUp(self):
+        sa = SocialAppFactory(
+            name=settings.FACEBOOK_APP_NAME,
+            client_id=settings.SOCIAL_AUTH_FACEBOOK_KEY,
+            secret=settings.SOCIAL_AUTH_FACEBOOK_SECRET,
+        )
+        site = Site.objects.get()
+        sa.sites.add(site)
+        sa.save()
+
+    def test_facebook_sign_up_success(self):
+        self.data = {'access_token': settings.FACEBOOK_ACCESS_TOKEN}
+        response = self.client.post('/dj-rest-auth/facebook/', self.data)
+        db_user = User.objects.get()
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(User.objects.count(), 1)
+        self.assertEqual(db_user.first_name, settings.FACEBOOK_USER_FIRST_NAME)
+        self.assertEqual(db_user.last_name, settings.FACEBOOK_USER_LAST_NAME)
+        self.assertEqual(db_user.email, settings.FACEBOOK_USER_EMAIL)

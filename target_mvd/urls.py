@@ -13,14 +13,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from dj_rest_auth.registration.views import ConfirmEmailView, VerifyEmailView
 from django.contrib import admin
 from django.urls import include, path
 
+from users.views import FacebookLogin
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('registration/account-confirm-email/<str:key>/', ConfirmEmailView.as_view()),
-    path('auth/', include('dj_rest_auth.urls')),
-    path('registration/', include('dj_rest_auth.registration.urls')),
-    path('account-confirm-email/', VerifyEmailView.as_view(), name='account_email_verification_sent'),
+    path('dj-rest-auth/', include('dj_rest_auth.urls')),
+    path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
+    path('dj-rest-auth/facebook/', FacebookLogin.as_view(), name='fb_login'),
+    path('accounts/', include('allauth.urls')),
+    path('users/', include(('users.urls', 'users'), namespace='users')),
 ]
