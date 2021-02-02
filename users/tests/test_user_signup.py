@@ -42,7 +42,6 @@ class SignUpTests(APITestCase):
 
     def test_sign_up_email_already_exists(self):
         user = UserFactory()
-        user.save()
         self.data.update({'email': user.email, 'password1': self.password, 'password2': self.password})
         response = self.client.post(self.sign_up_url, self.data)
 

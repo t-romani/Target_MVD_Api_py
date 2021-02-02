@@ -11,6 +11,9 @@ django-environ = "*"
 psycopg2-binary = "*"
 faker = "*"
 factory-boy = "*"
+pillow = "*"
+django-storages = "*"
+boto3 = "*"
 
 [dev-packages]
 flake8 = "3.8.4"
